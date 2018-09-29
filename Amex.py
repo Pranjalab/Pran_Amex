@@ -16,6 +16,8 @@ for imputer in imputers:
     for avg in avgs:
         X_train, y_train, X_test, person_add = Data(imputer,avg)
 
+        print("Starting: ", imputer, avg)
+
         import keras
         from keras.models import Sequential
         from keras.layers import Dense
@@ -24,9 +26,9 @@ for imputer in imputers:
         classifier = Sequential()
 
         # Adding the input layer and hidden layer
-        classifier.add(Dense(output_dim = 24, init = 'uniform', activation = 'relu', input_dim = 47))
+        classifier.add(Dense(output_dim = 36, init = 'uniform', activation = 'relu', input_dim = X_train.shape[1]))
 
-        classifier.add(Dense(output_dim = 24, init = 'uniform', activation = 'relu'))
+        classifier.add(Dense(output_dim = 36, init = 'uniform', activation = 'relu'))
 
         classifier.add(Dense(output_dim = 24, init = 'uniform', activation = 'relu'))
 
@@ -60,7 +62,7 @@ for imputer in imputers:
         # print(acc)
 
         # Saving the result
-        with open('blablabla_IIT_Madras_4.csv', "w") as f:
+        with open('blablabla_IIT_Madras_ANN_' + imputer + str(avg) +'.csv', "w") as f:
             for i in range(len(person_add)):
                 if y_pred[i]:
                     val = 1
