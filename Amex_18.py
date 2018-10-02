@@ -64,8 +64,8 @@ if Remove_NaN:
     print("Feature removed are: ", str(Removed_feature))
 
 # Imputing Missing Data
-test.fillna(test.median(), inplace=True)
-train.fillna(train.median(), inplace=True)
+#test.fillna(test.median(), inplace=True)
+#train.fillna(train.median(), inplace=True)
 
 # Normalizing Data
 data=pd.concat([train, test])
@@ -86,30 +86,32 @@ def normalizing(X):
 for i in skewed:
     normalizing(i)
 
-# Feature engineering
-print("Feature engineering...")
-y = train.iloc[:,-1]
-Severity = ['mvar3','mvar4','mvar5']
-lda_Severity = LDA(n_components=5)
-lda_Severity = lda_Severity.fit(train[Severity], y)
-data['Severity'] = lda_Severity.transform(data[Severity])
-
-No_of_active = ['mvar16','mvar17','mvar19', 'mvar20','mvar18']
-lda_No_of_active = LDA(n_components=5)
-lda_No_of_active = lda_No_of_active.fit(train[No_of_active], y)
-data['No_of_active'] = lda_No_of_active.transform(data[No_of_active])
-
-Average_utilization = ['mvar21','mvar22','mvar23', 'mvar24']
-lda_Average_utilization = LDA(n_components=5)
-lda_Average_utilization = lda_Average_utilization.fit(train[Average_utilization], y)
-data['Average_utilization'] = lda_Average_utilization.transform(data[Average_utilization])
-
-No_of_active_line = ['mvar34','mvar35','mvar36']
-lda_No_of_active_line = LDA(n_components=5)
-lda_No_of_active_line = lda_No_of_active_line.fit(train[No_of_active_line], y)
-data['No_of_active_line'] = lda_No_of_active_line.transform(data[No_of_active_line])
-
-print("Shape of Data after Feature Engineering: ", data.shape)
+fe = False
+if fe:
+    # Feature engineering
+    print("Feature engineering...")
+    y = train.iloc[:,-1]
+    Severity = ['mvar3','mvar4','mvar5']
+    lda_Severity = LDA(n_components=5)
+    lda_Severity = lda_Severity.fit(train[Severity], y)
+    data['Severity'] = lda_Severity.transform(data[Severity])
+    
+    No_of_active = ['mvar16','mvar17','mvar19', 'mvar20','mvar18']
+    lda_No_of_active = LDA(n_components=5)
+    lda_No_of_active = lda_No_of_active.fit(train[No_of_active], y)
+    data['No_of_active'] = lda_No_of_active.transform(data[No_of_active])
+    
+    Average_utilization = ['mvar21','mvar22','mvar23', 'mvar24']
+    lda_Average_utilization = LDA(n_components=5)
+    lda_Average_utilization = lda_Average_utilization.fit(train[Average_utilization], y)
+    data['Average_utilization'] = lda_Average_utilization.transform(data[Average_utilization])
+    
+    No_of_active_line = ['mvar34','mvar35','mvar36']
+    lda_No_of_active_line = LDA(n_components=5)
+    lda_No_of_active_line = lda_No_of_active_line.fit(train[No_of_active_line], y)
+    data['No_of_active_line'] = lda_No_of_active_line.transform(data[No_of_active_line])
+    
+    print("Shape of Data after Feature Engineering: ", data.shape)
 
 #  Preparing Data
 train_new = data.iloc[0:train.shape[0]]
@@ -145,12 +147,6 @@ print("precision_score :" + str(precision_score(ytest, xgb.predict(Xtest))))
 print("recall_score :" + str(recall_score(ytest, xgb.predict(Xtest))))
 print("confusion_matrix :" + str(confusion_matrix(ytest, xgb.predict(Xtest))))
 
-def myscorer(cm):
-    False1 = cm[0][1]
-    False2 = cm[1][0]
-    return (3 * False1) + (False2), (False1 + False2)
-
-print("myscorer :" + str(myscorer(confusion_matrix(ytest, xgb.predict(Xtest)))))
 
 ax = xgboost.plot_importance(xgb)
 fig = ax.figure
@@ -160,11 +156,11 @@ fig.set_size_inches(15, 15)
 proba = xgb.predict_proba(test_features)[:, 1]
 pred = []
 
-U_ther, L_ther = 0.75, 0.09
+U_ther, L_ther = 0.88, 0.11
 test_proba = xgb.predict_proba(Xtest)[:, 1]
 my_test, my_pre = [], []
 
-with open('result/blablabla_IIT_Madras_XGB_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as file:
+with open('result/blablabla_IIT_Madras_XGB_test' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as file:
      for i in range(len(test_proba)):
          if test_proba[i] < L_ther:
              my_test.append(ytest.iloc[i])
@@ -182,15 +178,23 @@ print("My precision_score :" + str(precision_score(my_test, my_pre)))
 print("My recall_score :" + str(recall_score(my_test, my_pre)))
 print("My confusion_matrix :" + str(confusion_matrix(my_test, my_pre)))
 
+L_ther_no = 0
+U_ther_no = 0
 
-             
-with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_5' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
     for i in range(len(proba)):
+        
          if proba[i] < L_ther:
+             L_ther_no += 1
              f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
          if proba[i] > U_ther:
+             U_ther_no += 1
              f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
-             
-        
+'''
+        if proba[i] > 0.5:
+            f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
+        else:
+            f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
+        '''
 
 
