@@ -34,3 +34,13 @@ Following files can be downloaded for your analysis.
     Leaderboard_dataset.csv: This data has historical applicantlevel data along with all the variables in the training dataset. The actual performance i.e. default tagging is not present in this data.
     Evaluation_dataset.csv: This data has applicant level data along with all the variables in the training dataset. The actual performance i.e. default tagging is not present in this data.
     Data_Dictionary.xlsx: This sheet will give you the description of all the variables contained in the 3 datasets above.
+# Solution
+In order to archive accurate solution i have tried different methods from which XGBoost perform best following are other method which are used:\
+    
+    Artificial neural network: Amex_ANN.py
+    AdaBoostClassifier : Amex_ABC.py
+    GradientBoostingClassifier: Amex_GBC.py
+    RandomForestClassifier: Amex_RFC.py
+    XGBoost: Amex.py and Amex_18.py
+    
+    LinearDiscriminantAnalysis: For Feature engineering (In most of the files except XGBoost)
