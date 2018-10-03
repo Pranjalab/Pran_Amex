@@ -1,0 +1,48 @@
+[mean: 0.80788, std: 0.00124, params: {'gamma': 0.0, 'learning_rate': 0.05, 'max_depth': 6, 'reg_lambda': 0.9},
+ mean: 0.80728, std: 0.00188, params: {'gamma': 0.0, 'learning_rate': 0.05, 'max_depth': 6, 'reg_lambda': 1.1},
+ mean: 0.80555, std: 0.00236, params: {'gamma': 0.0, 'learning_rate': 0.05, 'max_depth': 9, 'reg_lambda': 0.9},
+ mean: 0.80548, std: 0.00139, params: {'gamma': 0.0, 'learning_rate': 0.05, 'max_depth': 9, 'reg_lambda': 1.1},
+ mean: 0.80680, std: 0.00286, params: {'gamma': 0.0, 'learning_rate': 0.1, 'max_depth': 6, 'reg_lambda': 0.9},
+ mean: 0.80753, std: 0.00108, params: {'gamma': 0.0, 'learning_rate': 0.1, 'max_depth': 6, 'reg_lambda': 1.1},
+ mean: 0.80439, std: 0.00331, params: {'gamma': 0.0, 'learning_rate': 0.1, 'max_depth': 9, 'reg_lambda': 0.9},
+ mean: 0.80455, std: 0.00291, params: {'gamma': 0.0, 'learning_rate': 0.1, 'max_depth': 9, 'reg_lambda': 1.1},
+ mean: 0.80763, std: 0.00186, params: {'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 6, 'reg_lambda': 0.9},
+ mean: 0.80745, std: 0.00178, params: {'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 6, 'reg_lambda': 1.1},
+ mean: 0.80558, std: 0.00253, params: {'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 9, 'reg_lambda': 0.9}, 
+ mean: 0.80605, std: 0.00151, params: {'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 9, 'reg_lambda': 1.1},
+ mean: 0.80759, std: 0.00175, params: {'gamma': 0.1, 'learning_rate': 0.1, 'max_depth': 6, 'reg_lambda': 0.9}, 
+ mean: 0.80694, std: 0.00155, params: {'gamma': 0.1, 'learning_rate': 0.1, 'max_depth': 6, 'reg_lambda': 1.1}, 
+ mean: 0.80552, std: 0.00231, params: {'gamma': 0.1, 'learning_rate': 0.1, 'max_depth': 9, 'reg_lambda': 0.9},
+ mean: 0.80684, std: 0.00230, params: {'gamma': 0.1, 'learning_rate': 0.1, 'max_depth': 9, 'reg_lambda': 1.1}]
+ 
+Best accuracy obtained: 0.807875
+
+Parameters:
+        gamma: 0.0
+        learning_rate: 0.05
+        max_depth: 6
+        reg_lambda: 0.9
+		
+		
+[mean: 0.80847, std: 0.00098, params: {'max_depth': 5, 'min_child_weight': 3},
+ mean: 0.80848, std: 0.00158, params: {'max_depth': 5, 'min_child_weight': 7}, 
+ mean: 0.80852, std: 0.00133, params: {'max_depth': 5, 'min_child_weight': 8}, 
+ mean: 0.80881, std: 0.00132, params: {'max_depth': 6, 'min_child_weight': 3}, 
+ mean: 0.80881, std: 0.00135, params: {'max_depth': 6, 'min_child_weight': 7},
+ mean: 0.80895, std: 0.00126, params: {'max_depth': 6, 'min_child_weight': 8},
+ mean: 0.80875, std: 0.00121, params: {'max_depth': 7, 'min_child_weight': 3}, 
+ mean: 0.80891, std: 0.00180, params: {'max_depth': 7, 'min_child_weight': 7},
+ mean: 0.80797, std: 0.00157, params: {'max_depth': 7, 'min_child_weight': 8}]
+Best accuracy obtained: 0.808953125
+Parameters:
+        max_depth: 6
+        min_child_weight: 8
+		
+		
+		
+		
+		
+		
+		
+		
+		

@@ -8,34 +8,6 @@ from scipy.stats import boxcox
 from sklearn.preprocessing import LabelEncoder
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
-random.seed(3)
-
-# Imports for better visualization
-from matplotlib import rcParams
-
-dark2_colors = [(0.10588235294117647, 0.6196078431372549, 0.4666666666666667),
-                (0.8509803921568627, 0.37254901960784315, 0.00784313725490196),
-                (0.4588235294117647, 0.4392156862745098, 0.7019607843137254),
-                (0.9058823529411765, 0.1607843137254902, 0.5411764705882353),
-                (0.4, 0.6509803921568628, 0.11764705882352941),
-                (0.9019607843137255, 0.6705882352941176, 0.00784313725490196),
-                (0.6509803921568628, 0.4627450980392157, 0.11372549019607843)]
-
-
-rcParams['figure.figsize'] = (8, 3)
-rcParams['figure.dpi'] = 150
-rcParams['axes.color_cycle'] = dark2_colors
-rcParams['lines.linewidth'] = 2
-rcParams['font.size'] = 14
-rcParams['patch.edgecolor'] = 'white'
-rcParams['patch.facecolor'] = dark2_colors[0]
-rcParams['font.family'] = 'StixGeneral'
-rcParams['axes.grid'] = True
-rcParams['axes.facecolor'] = '#eeeeee'
-
-
-Remove_NaN = True
-
 # Importing the data
 train=pd.read_csv("Data/Training_dataset_Original_.csv")
 test=pd.read_csv("Data/Leaderboard_dataset_.csv")
@@ -49,6 +21,7 @@ test['mvar47'] = labelencoder.transform(test['mvar47'])
 
 # Removing columns which has more then 60% of NaN value
 Removed_feature = []
+Remove_NaN = True
 if Remove_NaN:
     Total_feature = test.axes[1]
     print("Removing Null Values...")
@@ -145,7 +118,6 @@ ytest = my_ytest['default_ind']
 yKey = my_ytest["application_key"]
 
 # import keras.backend as K
-
 def create_model(layers, activation_fun, opt, los):
     model = Sequential()
     for i, nodes in enumerate(layers):
@@ -162,18 +134,16 @@ def create_model(layers, activation_fun, opt, los):
 
 
 model = KerasRegressor(build_fn=create_model, verbose=1)
-
 #TODO : try dropouts
 layers = [[40,40,20,10]]
 #activations = [sigmoid, relu]
 activations = [relu]
 opt = ['adam']
 los = ['binary_crossentropy']
-param_grid = dict(layers=layers, activation_fun=activations,opt=opt, los=los, batch_size = [100], epochs=[100])
+param_grid = dict(layers=layers, activation_fun=activations,opt=opt, los=los, batch_size = [100], epochs=[500])
 grid = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_mean_squared_error')
 
 grid_result = grid.fit(Xtrain, ytrain)
-
 i = 0
 print([grid_result.best_score_, grid_result.best_params_])
 
@@ -191,11 +161,6 @@ U_ther, L_ther = 0.75, 0.09
 test_proba = grid.predict(Xtest)
 my_test, my_pre = [], []
 
-# Applying k-Fold Cross Validation
-from sklearn.model_selection import cross_val_score
-accuracies = cross_val_score(estimator = grid, X = Xtrain, y = ytrain, cv = 10)
-accuracies.mean()
-accuracies.std()
 
 
 with open('result/blablabla_IIT_Madras_ANN_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as file:
@@ -218,11 +183,11 @@ print("My confusion_matrix :" + str(confusion_matrix(my_test, my_pre)))
 
 
              
-with open('result/blablabla_IIT_Madras_ANN_test_prob_ther_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+with open('result/blablabla_IIT_Madras_ANN_.csv', "w") as f:
     for i in range(len(proba)):
-         if proba[i] < L_ther:
+         if proba[i] < 0.5:
              f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
-         if proba[i] > U_ther:
+         else:
              f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
 
 

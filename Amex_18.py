@@ -118,11 +118,11 @@ params_fixed = {
      'reg_lambda': 0.9,
      'seed': 100,
      'learning_rate': 0.01,
-     'reg_alpha': 0.01,
+     'reg_alpha': 0.7,
      'min_child_weight': 3
 }
 
-xgb = XGBClassifier(**params_fixed,)
+xgb = XGBClassifier(**params_fixed)
 xgb.fit(Xtrain, ytrain)
 
 print("Training :" + str(accuracy_score(ytrain, xgb.predict(Xtrain))))
@@ -141,7 +141,7 @@ fig.set_size_inches(15, 15)
 proba = xgb.predict_proba(test_features)[:, 1]
 pred = []
 
-U_ther, L_ther = 0.915, 0.11
+U_ther, L_ther = 0.91, 0.11
 test_proba = xgb.predict_proba(Xtest)[:, 1]
 my_test, my_pre = [], []
 
@@ -163,18 +163,17 @@ print("My precision_score :" + str(precision_score(my_test, my_pre)))
 print("My recall_score :" + str(recall_score(my_test, my_pre)))
 print("My confusion_matrix :" + str(confusion_matrix(my_test, my_pre)))
 
-U_ther, L_ther = 0.91, 0.11
-'''
-with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_9_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+U_ther, L_ther = 0.96, 0.11
+
+with open('result/blablabla_IIT_Madras_XGB_PB_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
     for i in range(len(proba)):
-     
+    
          if proba[i] < L_ther:
              f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
          if proba[i] > U_ther:
              f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
 
-'''
-with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_2000' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+with open('result/blablabla_IIT_Madras_XGB_Tune_BG.csv', "w") as f:
     for i in range(len(proba)):
         if proba[i] > 0.5:
             f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")

@@ -7,36 +7,34 @@ Created on Fri Sep 28 16:05:48 2018
 
 
 from Data_Cleaning import Data
+from keras.models import Sequential
+from keras.layers import Dense
 
+flags = [True, False]
+imputer ='median'
+avgs = [55, 60]
 
-imputers = ['mean','median','most_frequent']
-avgs = [45, 50, 60]
-
-for imputer in imputers:
+for flag in flags:
     for avg in avgs:
-        X_train, y_train, X_test, person_add = Data(imputer,avg)
+        X_train, y_train, X_test, person_add = Data(imputer,avg,fetu_sel=flag )
 
-        print("Starting: ", imputer, avg)
-
-        import keras
-        from keras.models import Sequential
-        from keras.layers import Dense
+        print("Starting: ", imputer, avg, flag)
 
         # Initialising the ANN
         classifier = Sequential()
 
         # Adding the input layer and hidden layer
-        classifier.add(Dense(output_dim = 36, init = 'uniform', activation = 'relu', input_dim = X_train.shape[1]))
+        classifier.add(Dense(output_dim =40, init = 'uniform', activation = 'relu', input_dim = X_train.shape[1]))
 
-        classifier.add(Dense(output_dim = 36, init = 'uniform', activation = 'relu'))
+        classifier.add(Dense(output_dim = 40, init = 'uniform', activation = 'relu'))
 
-        classifier.add(Dense(output_dim = 24, init = 'uniform', activation = 'relu'))
+        classifier.add(Dense(output_dim = 20, init = 'uniform', activation = 'relu'))
 
-        classifier.add(Dense(output_dim = 12, init = 'uniform', activation = 'relu'))
+        classifier.add(Dense(output_dim = 20, init = 'uniform', activation = 'relu'))
 
         # classifier.add(Dense(output_dim = 12, init = 'uniform', activation = 'relu'))
 
-        classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))
+        classifier.add(Dense(output_dim =10, init = 'uniform', activation = 'relu'))
 
         # classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))
 
@@ -62,7 +60,7 @@ for imputer in imputers:
         # print(acc)
 
         # Saving the result
-        with open('blablabla_IIT_Madras_ANN_' + imputer + str(avg) +'.csv', "w") as f:
+        with open('result/blablabla_IIT_Madras_ANN_' + imputer + str(avg) + str(flag) +'.csv', "w") as f:
             for i in range(len(person_add)):
                 if y_pred[i]:
                     val = 1

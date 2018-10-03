@@ -150,16 +150,6 @@ print("Best accuracy obtained: {0}".format(bst_grid.best_score_))
 print("Parameters:")
 for key, value in bst_grid.best_params_.items():
     print("\t{}: {}".format(key, value))
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
 print("Training :" + str(accuracy_score(ytrain, bst_grid.predict(Xtrain))))
 print("Test :" + str(accuracy_score(ytest, bst_grid.predict(Xtest))))
