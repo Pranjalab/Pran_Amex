@@ -1,38 +1,11 @@
 # Initial imports
 import pandas as pd
 import numpy as np
-import random
 import warnings
 warnings.filterwarnings('ignore')
 from scipy.stats import boxcox
 from sklearn.preprocessing import LabelEncoder
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-
-random.seed(3)
-
-# Imports for better visualization
-from matplotlib import rcParams
-
-dark2_colors = [(0.10588235294117647, 0.6196078431372549, 0.4666666666666667),
-                (0.8509803921568627, 0.37254901960784315, 0.00784313725490196),
-                (0.4588235294117647, 0.4392156862745098, 0.7019607843137254),
-                (0.9058823529411765, 0.1607843137254902, 0.5411764705882353),
-                (0.4, 0.6509803921568628, 0.11764705882352941),
-                (0.9019607843137255, 0.6705882352941176, 0.00784313725490196),
-                (0.6509803921568628, 0.4627450980392157, 0.11372549019607843)]
-
-
-rcParams['figure.figsize'] = (8, 3)
-rcParams['figure.dpi'] = 150
-rcParams['axes.color_cycle'] = dark2_colors
-rcParams['lines.linewidth'] = 2
-rcParams['font.size'] = 14
-rcParams['patch.edgecolor'] = 'white'
-rcParams['patch.facecolor'] = dark2_colors[0]
-rcParams['font.family'] = 'StixGeneral'
-rcParams['axes.grid'] = True
-rcParams['axes.facecolor'] = '#eeeeee'
-
 
 Remove_NaN = True
 
@@ -137,7 +110,19 @@ ytrain = my_ytrain['default_ind']
 ytest = my_ytest['default_ind']
 yKey = my_ytest["application_key"]
 
-xgb = XGBClassifier(n_estimators=1000, seed=100)
+params_fixed = {
+    'objective': 'binary:logistic',
+    'silent': 0,
+    'n_estimators' :1000,
+     'max_depth': 6,
+     'reg_lambda': 0.9,
+     'seed': 100,
+     'learning_rate': 0.01,
+     'reg_alpha': 0.01,
+     'min_child_weight': 3
+}
+
+xgb = XGBClassifier(**params_fixed,)
 xgb.fit(Xtrain, ytrain)
 
 print("Training :" + str(accuracy_score(ytrain, xgb.predict(Xtrain))))
@@ -156,7 +141,7 @@ fig.set_size_inches(15, 15)
 proba = xgb.predict_proba(test_features)[:, 1]
 pred = []
 
-U_ther, L_ther = 0.88, 0.11
+U_ther, L_ther = 0.915, 0.11
 test_proba = xgb.predict_proba(Xtest)[:, 1]
 my_test, my_pre = [], []
 
@@ -178,23 +163,21 @@ print("My precision_score :" + str(precision_score(my_test, my_pre)))
 print("My recall_score :" + str(recall_score(my_test, my_pre)))
 print("My confusion_matrix :" + str(confusion_matrix(my_test, my_pre)))
 
-L_ther_no = 0
-U_ther_no = 0
-
-with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_5' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+U_ther, L_ther = 0.91, 0.11
+'''
+with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_9_' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
     for i in range(len(proba)):
-        
+     
          if proba[i] < L_ther:
-             L_ther_no += 1
              f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
          if proba[i] > U_ther:
-             U_ther_no += 1
              f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
+
 '''
+with open('result/blablabla_IIT_Madras_XGB_test_prob_ther_2000' + str(L_ther) + "_" + str(U_ther) + '.csv', "w") as f:
+    for i in range(len(proba)):
         if proba[i] > 0.5:
             f.write(str(test_key.iloc[i]) + "," + str(1) + "," + str(proba[i]) + "\n")
         else:
             f.write(str(test_key.iloc[i]) + "," + str(0) + "," + str(proba[i]) + "\n")
-        '''
-
 

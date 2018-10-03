@@ -14,32 +14,6 @@ from scipy.stats import boxcox
 from sklearn.preprocessing import LabelEncoder
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
-random.seed(3)
-
-# Imports for better visualization
-from matplotlib import rcParams
-
-dark2_colors = [(0.10588235294117647, 0.6196078431372549, 0.4666666666666667),
-                (0.8509803921568627, 0.37254901960784315, 0.00784313725490196),
-                (0.4588235294117647, 0.4392156862745098, 0.7019607843137254),
-                (0.9058823529411765, 0.1607843137254902, 0.5411764705882353),
-                (0.4, 0.6509803921568628, 0.11764705882352941),
-                (0.9019607843137255, 0.6705882352941176, 0.00784313725490196),
-                (0.6509803921568628, 0.4627450980392157, 0.11372549019607843)]
-
-
-rcParams['figure.figsize'] = (8, 3)
-rcParams['figure.dpi'] = 150
-rcParams['axes.color_cycle'] = dark2_colors
-rcParams['lines.linewidth'] = 2
-rcParams['font.size'] = 14
-rcParams['patch.edgecolor'] = 'white'
-rcParams['patch.facecolor'] = dark2_colors[0]
-rcParams['font.family'] = 'StixGeneral'
-rcParams['axes.grid'] = True
-rcParams['axes.facecolor'] = '#eeeeee'
-
-
 Remove_NaN = True
 
 # Importing the data
@@ -149,8 +123,8 @@ for line in lines:
     line = line.split(',')
     para = [float(x) for x in line]
     
-    xgb = XGBClassifier(n_estimators=1000, seed=100, learning_rate=para[0], max_depth=para[1]
-    reg_lambda=para[2], reg_alpha = para[3], min_child_weight=para[4])
+    xgb = XGBClassifier(n_estimators=1000, seed=100, learning_rate=para[0], max_depth=para[1],
+                        reg_lambda=para[2], reg_alpha = para[3], min_child_weight=para[4])
     xgb.fit(Xtrain, ytrain)
     
     a = accuracy_score(ytrain, xgb.predict(Xtrain))
@@ -184,11 +158,11 @@ for line in lines:
     print("My recall_score :" + str(recall_score(my_test, my_pre)))
     print("My confusion_matrix :" + str(confusion_matrix(my_test, my_pre)))
     
-    with open('result/blablabla_IIT_Madras_XGB_Taguchi.csv', "+w") as f:
+    with open('result/blablabla_IIT_Madras_XGB_Taguchi.csv', "a+") as f:
         f.write(str(para[0]) + "," + str(para[1]) + "," + str(para[2]) + "," + 
                 str(para[3]) + "," + str(a) + "," + str(b) + "," +
                 str(accuracy_score(my_test, my_pre)) + "," + 
-                str(precision_score(my_test, my_pre) + "\n")
+                str(precision_score(my_test, my_pre) + "\n"))
     
 
 L_ther_no = 0
