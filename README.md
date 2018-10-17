@@ -1,5 +1,5 @@
 # Pran_Amex
-This is 2018 American Express Campus Analyze Thisis a first-of-its-kind data analytics competition by American Express.
+This is 2018 American Express Campus Analyze This a first-of-its-kind data analytics competition by American Express.
 
 #Background
 
